@@ -1,4 +1,6 @@
-export class Payment {
+import { HasFormatter } from "../interfaces/HasFormatter.js";
+
+export class Payment implements HasFormatter {
   public recipient: string;
   public details: string;
   public amount: number;

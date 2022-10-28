@@ -1,5 +1,9 @@
 import { Invoice } from "./classes/Invoice.js";
 import { Payment } from "./classes/Payment.js";
+import { ListTamplate } from "./classes/ListTamplate.js";
+import { HasFormatter } from "./interfaces/HasFormatter.js";
+
+let values: [string, string, number];
 
 const form = document.querySelector(".new-item-form") as HTMLFormElement;
 
@@ -8,20 +12,21 @@ const tofrom = document.getElementById("tofrom") as HTMLInputElement;
 const details = document.getElementById("details") as HTMLInputElement;
 const amount = document.getElementById("amount") as HTMLInputElement;
 
-let values: [string, string, number];
+const ul = document.querySelector(".item-list") as HTMLUListElement;
+let list = new ListTamplate(ul);
 
 form.addEventListener("submit", (e: Event) => {
   e.preventDefault();
 
+  let doc: HasFormatter;
   values = [tofrom.value, details.value, amount.valueAsNumber];
 
   if (type.value === "invoice") {
-    let doc = new Invoice(...values);
-    console.log(doc);
+    doc = new Invoice(...values);
+    list.render(doc, values[0], "end");
   }
 
   if (type.value === "payment") {
-    let doc = new Payment(...values);
-    console.log(doc);
+    doc = new Payment(...values);
   }
 });
